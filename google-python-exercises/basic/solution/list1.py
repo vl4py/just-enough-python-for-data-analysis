@@ -60,7 +60,7 @@ def front_x(words):
 # LAB(begin solution)
 # Extract the last element from a tuple -- used for custom sorting below.
 def last(a):
-  return a[-1]
+  return sum([t from t in a])
 # LAB(end solution)
 
 # C. sort_last
