@@ -35,34 +35,47 @@ Suggested milestones for incremental development:
 """
 
 def extract_names(filename):
-  """
-  Given a file name for baby.html, returns a list starting with the year string
-  followed by the name-rank strings in alphabetical order.
-  ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
-  """
-  # +++your code here+++
-  return
+    """
+    Given a file name for baby.html, returns a list starting with the year string
+    followed by the name-rank strings in alphabetical order.
+    ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
+    """
+    with open(filename) as f:
+        raw_file = f.read()
+        year_re = re.findall(r'Popularity\sin\s(\d\d\d\d)', raw_file)
+        names_re = re.findall(r'<td>(\d+)</td><td>(\w+)</td>\<td>(\w+)</td>', raw_file)
+        male_names = [name[1] + " " + name[0] for name in names_re]
+        female_names = [name[2] + " " + name[0] for name in names_re]
+        names = male_names + female_names
+        names_sorted = names.copy()
+        names_sorted.sort()
+        res = year_re + names_sorted
+    return res
 
 
 def main():
-  # This command-line parsing code is provided.
-  # Make a list of command line arguments, omitting the [0] element
-  # which is the script itself.
-  args = sys.argv[1:]
+    # This command-line parsing code is provided.
+    # Make a list of command line arguments, omitting the [0] element
+    # which is the script itself.
+    args = sys.argv[1:]
 
-  if not args:
-    print 'usage: [--summaryfile] file [file ...]'
-    sys.exit(1)
+    if not args:
+        print('usage: [--summaryfile] file [file ...]')
+        sys.exit(1)
 
-  # Notice the summary flag and remove it from args if it is present.
-  summary = False
-  if args[0] == '--summaryfile':
-    summary = True
-    del args[0]
+    # Notice the summary flag and remove it from args if it is present.
+    summary = False
+    if args[0] == '--summaryfile':
+        summary = True
+        del args[0]
 
-  # +++your code here+++
-  # For each filename, get the names, then either print the text output
-  # or write it to a summary file
-  
+    for file in args:
+        print(file)
+        print(extract_names(file))
+        print('-----------------------------------------')
+    # +++your code here+++
+    # For each filename, get the names, then either print the text output
+    # or write it to a summary file
+
 if __name__ == '__main__':
-  main()
+    main()
